@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1050 590">
+<a >
+      <circle onclick="alert('click!')" cx="389" cy="143" r="25" fill="#fff" stroke="black"   opacity="1"  ></circle>
+    </a><a xlink:href="#">
+      <circle cx="258" cy="250" r="25" fill="#fff" stroke="black"   opacity="1"  ></circle>
+    </a><a xlink:href="#">
+      <circle cx="86" cy="182" r="25" fill="#fff" stroke="black"   opacity="1"  ></circle>
+    </a><a xlink:href="#">
+      <circle cx="746" cy="69" r="25" fill="#fff" stroke="black"   opacity="1"  ></circle>
+    </a><a xlink:href="#">
+      <circle cx="123" cy="273" r="25" fill="#fff" stroke="black"   opacity="1"  ></circle>
+    </a>
+  </svg>
