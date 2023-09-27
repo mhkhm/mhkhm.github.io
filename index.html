@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalastonhoitomaksu</title>
+  <style>
+    :root {
+      --point-1-top: 30%;
+      --point-1-left: 80%;
+      --point-2-top: 53%;
+      --point-2-left: 29%;
+      --point-3-top: 40%;
+      --point-3-left: 45%;
+      --point-4-top: 30%;
+      --point-4-left: 20%;
+      --point-width: 30px;
+      --point-height: 30px;
+      --point-1-scale: 5;
+      --point-2-scale: 3;
+      --point-3-scale: 5;
+      --point-4-scale: 4;
+    }
+
+    .description p {
+      margin: 0;
+      font-size: 12px;
+      z-index: -1;
+      color: #ffffff;
+    }
+
+    .image-indicators img {
+
+      border-radius: 30px;
+      transition: width 0.4s ease, transform 0.4s ease;
+    }
+
+    .image-indicators {
+      position: relative;
+      width: 100%;
+      border-radius: 30px;
+      overflow: hidden;
+      font-size: 0;
+      margin: auto;
+    }
+
+    .image-indicators label {
+      display: flex;
+      position: absolute;
+      cursor: pointer;
+      transition-property: opacity;
+      transition-duration: 300ms;
+      transition: opacity 0.3s ease-out 0.5s;
+      z-index: 1;
+    }
+
+    .image-indicators>label>span {
+      background-color: #EA5B0C;
+      width: 30px;
+      height: 30px;
+      border-radius: 60px;
+      transform: scale(1);
+    }
+
+    .image-indicators>label>span>span {
+      display: inline-block;
+      vertical-align: 20px;
+      background-color: #FECA3A;
+      width: 30px;
+      height: 30px;
+      transform: scale(0);
+      border-radius: 60px;
+      animation: scaleGrow 3s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+      animation-play-state: running;
+    }
+
+    @keyframes scaleGrow {
+      from {
+        transform: scale(0);
+        background-color: #FECA3A;
+      }
+
+      to {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+
+    @keyframes scaleDecreases {
+      from {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(0.9);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      cursor: pointer;
+      opacity: 0;
+      z-index: 2;
+      transition-property: width, height, left, top;
+      transition-delay: 650ms;
+    }
+
+    .point:checked {
+      top: -50% !important;
+      left: -50% !important;
+      width: 200%;
+      height: 200%;
+      z-index: 9;
+    }
+
+    .point:checked~label {
+      opacity: 0;
+      pointer-events: none;
+      z-index: -1;
+      transition: opacity 0.3s ease-out 0s;
+    }
+
+    .description {
+      position: absolute;
+      bottom: 100px;
+      height: 45px;
+      overflow: hidden;
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 1px 10px 10px;
+      color: black;
+      z-index: 1;
+    }
+
+    .description div {
+      display: none;
+    }
+
+    .description div:first-child {
+      display: block;
+      opacity: 1;
+      transition-property: opacity;
+      transition-duration: 300ms;
+      transition: opacity 0.3s ease-out 0.5s;
+    }
+
+    .description div:first-child p {
+      color: #000000;
+    }
+
+    .description p {
+      line-height: 18px;
+    }
+
+    .point:checked~.description {
+      background: rgba(191, 191, 191, 0.3);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #label-1 {
+      top: var(--point-1-top);
+      left: var(--point-1-left);
+    }
+
+    #point-1 {
+      left: var(--point-1-left);
+      top: var(--point-1-top);
+    }
+
+    #point-1:checked~img {
+      transform-origin: calc(var(--point-1-left)) calc(var(--point-1-top));
+      transform: scale(var(--point-1-scale));
+    }
+
+    #point-1:hover~img {
+      transform-origin: calc(var(--point-1-left)) calc(var(--point-1-top));
+    }
+
+    #point-1:checked~.description div:first-child {
+      height: 0;
+      opacity: 0;
+      transition: opacity 0s ease-out 0s;
+    }
+
+    #point-1:checked~.description div:nth-child(2) {
+      display: block;
+    }
+
+    #point-1:checked~.description div:nth-child(2) p:first-child {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 0.5s;
+      animation-delay: 0.5s;
+      animation-play-state: running;
+    }
+
+    #point-1:checked~.description div:nth-child(2) p:nth-child(2) {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 2.5s;
+      animation-delay: 2.5s;
+      animation-play-state: running;
+    }
+
+    #label-2 {
+      top: var(--point-2-top);
+      left: var(--point-2-left);
+    }
+
+    #point-2 {
+      left: var(--point-2-left);
+      top: var(--point-2-top);
+    }
+
+    #point-2:checked~img {
+      transform-origin: calc(var(--point-2-left)) calc(var(--point-2-top));
+      transform: scale(var(--point-2-scale));
+    }
+
+    #point-2:hover~img {
+      transform-origin: calc(var(--point-2-left)) calc(var(--point-2-top));
+    }
+
+    #point-2:checked~.description div:first-child {
+      height: 0;
+      opacity: 0;
+      transition: opacity 0s ease-out 0s;
+    }
+
+    #point-2:checked~.description div:nth-child(3) {
+      display: block;
+    }
+
+    #point-2:checked~.description div:nth-child(3) p:first-child {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 0.5s;
+      animation-delay: 0.5s;
+      animation-play-state: running;
+    }
+
+    #point-2:checked~.description div:nth-child(3) p:nth-child(2) {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 2.5s;
+      animation-delay: 2.5s;
+      animation-play-state: running;
+    }
+
+    #label-3 {
+      top: var(--point-3-top);
+      left: var(--point-3-left);
+    }
+
+    #point-3 {
+      left: var(--point-3-left);
+      top: var(--point-3-top);
+    }
+
+    #point-3:checked~img {
+      transform-origin: calc(var(--point-3-left)) calc(var(--point-3-top));
+      transform: scale(var(--point-3-scale));
+    }
+
+    #point-3:hover~img {
+      transform-origin: calc(var(--point-3-left)) calc(var(--point-3-top));
+    }
+
+    #point-3:checked~.description div:first-child {
+      height: 0;
+      opacity: 0;
+      transition: opacity 0s ease-out 0s;
+    }
+
+    #point-3:checked~.description div:nth-child(4) {
+      display: block;
+    }
+
+    #point-3:checked~.description div:nth-child(4) p:first-child {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 0.5s;
+      animation-delay: 0.5s;
+      animation-play-state: running;
+    }
+
+    #point-3:checked~.description div:nth-child(4) p:nth-child(2) {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 2.5s;
+      animation-delay: 2.5s;
+      animation-play-state: running;
+    }
+
+    #label-4 {
+      top: var(--point-4-top);
+      left: var(--point-4-left);
+    }
+
+    #point-4 {
+      left: var(--point-4-left);
+      top: var(--point-4-top);
+    }
+
+    #point-4:checked~img {
+      transform-origin: calc(var(--point-4-left)) calc(var(--point-4-top));
+      transform: scale(var(--point-4-scale));
+    }
+
+    #point-4:hover~img {
+      transform-origin: calc(var(--point-4-left)) calc(var(--point-4-top));
+    }
+
+    #point-4:checked~.description div:first-child {
+      height: 0;
+      opacity: 0;
+      transition: opacity 0s ease-out 0s;
+    }
+
+    #point-4:checked~.description div:nth-child(5) {
+      display: block;
+    }
+
+    #point-4:checked~.description div:nth-child(5) p:first-child {
+      width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-animation: type2 2s steps(40, end);
+      animation: type2 2s steps(40, end);
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+      -webkit-animation-delay: 0.5s;
+      animation-delay: 0.5s;
+      animation-play-state: running;
+    }
+
+    
+
+    body {
+      /*display: flex;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;*/
+    }
+
+    .left-menu {
+      float: left;
+      width: 225px;
+      background-color: #2196f3;
+      color: #ececec;
+    }
+
+    header {
+      display: float;
+      margin: 16px;
+    }
+    .bg {
+      background-image: url('Retkietiketti-11.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+
+    }
+    .menu li {
+  display:inline;
+}
+  </style>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  [class*="col-"] {
+    float: left;
+    padding: 15px;
+  }
+  
+  html {
+    font-family: "Lucida Sans", sans-serif;
+  }
+  
+  .header {
+    
+    color: #ffffff;
+    padding: 15px;
+  }
+  
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu li {
+    padding: 8px;
+    margin-bottom: 7px;
+    background-color: #33b5e5;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  }
+  
+  .menu li:hover {
+    background-color: #0099cc;
+  }
+  
+  .aside {
+    background-color: #33b5e5;
+    padding: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  }
+  
+  .footer {
+    background-color: #0099cc;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+    padding: 15px;
+  }
+  
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+  
+  @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    .col-s-1 {width: 8.33%;}
+    .col-s-2 {width: 16.66%;}
+    .col-s-3 {width: 25%;}
+    .col-s-4 {width: 33.33%;}
+    .col-s-5 {width: 41.66%;}
+    .col-s-6 {width: 50%;}
+    .col-s-7 {width: 58.33%;}
+    .col-s-8 {width: 66.66%;}
+    .col-s-9 {width: 75%;}
+    .col-s-10 {width: 83.33%;}
+    .col-s-11 {width: 91.66%;}
+    .col-s-12 {width: 100%;}
+  }
+  @media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+  }
+
+  .restrictions {
+    background-color: chocolate;
+    color: #fff;
+  }
+  .restrictions ul li {
+    list-style-type: none;
+  }
+  .restrictions ul li:before {
+  content: '☒';
+  margin-right: 12px
+  }
+  .info {
+    display: none;
+  }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <img src="eraluvat-khm.png" alt="" width="225" style="display: inline-block;">
+    <ul class="menu" style="display: inline-block;">
+      <li>Kalastusluvat eli kalastusoikeudet</li>
+      <li>Kalastusetiketti</li>
+    </ul>
+  </header>
+  <div class="row">
+  <div class="col-3 col-s-3 menu">
+    <h3>Kalastonhoitomaksu - kalastuslupa, joka vaaditaan kaikkialla Suomessa</h3>
+    <div class="1"><p>Kalastonhoitomaksu oikeuttaa kalastamaan seisovilla vesillä eli järvillä, lammilla ja merialueilla yhdellä (1) vavalla.</p><p>Kalastonhoitomaksu tulee maksaa, kun kalastaa vieheellä, pyydyksillä tai ravustaa.</p><p>Maksun voi suorittaa kalenterivuodeksi 1.1.-31.12., seitsemäksi vuorokaudeksi tai yhdeksi vuorokaudeksi.</p></div>
+    <!--<div class="2">Kalastonhoitomaksu oikeuttaa kalastamaan seisovilla vesillä eli järvillä, lammilla ja merialueilla.</div>-->
+    <div class="2 info"><p>Kalastonhoitomaksu on henkilökohtainen eli jokaisen kalastajan tulee maksaa se. Maksun voi suorittaa myös toisen puolesta esim. lahjaksi.</p><p>Mikäli et osallistu kalastamiseen ts. et käsittelee kalastusvälineitä vaan esimerkiksi soudat, niin tällöin et tarvitse kalastonhoitomaksua.</p></div>
+    <div class="3 info"><p>Kalastonhoitomaksu oikeuttaa kalastamaan yhdellä (1) vavalla tai vieheellä.</p><p>Useamman vavan sekä pyydysten tai ravustuksen osalta <u>tarvitset aina lisäksi vesialueen omistajan luvan.</u></p></div>
+    <div class="4 info"><p>Kalastitpa sitten <u>omalla, sukulaisen, kaverin, vuokranantajan tai millä tahansa muulla mökillä</u>, niin kalastonhoitomaksu tulee olla suoritettuna .</p><p>Maa- tai vesialueen omistajuus ei poista maksuvelvollisuutta.</p><p>Myöskään mitkään alueelliset erityis- ja kohdeluvat eivät poista maksuvelvollisuutta vaan muut <u>luvat tulee hankkia kalastonhoitomaksun lisäksi.</u></p></div>
+  </div>
+  <div class="col-6 col-s-9 bg">
+    <svg id="bgoverlay" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 1050 590">
+      <a xlink:href="#">
+        <circle cx="186" cy="202" r="15" fill="#00ff00" stroke="black" opacity="0.75" ><animate
+          attributeName="r" 
+          begin="0s"
+          calcMode="spline" 
+          keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+          values="10;15;10" 
+          keyTimes="0;0.5;1"
+          dur="1s"
+          repeatCount="indefinite"/>
+</circle>
+      </a>
+
+      <!--<a xlink:href="#">
+        <circle cx="183" cy="333" r="15" fill="#00ff00" stroke="black" opacity="0.75"><animate
+          attributeName="r" 
+          begin="0s"
+          calcMode="spline" 
+          keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+          values="10;15;10" 
+          keyTimes="0;0.5;1"
+          dur="1s"
+          repeatCount="indefinite"/></circle>
+      </a>-->
+
+      <a xlink:href="#">
+        <circle cx="338" cy="330" r="15" fill="#00ff00" stroke="black" opacity="0.75"><animate
+          attributeName="r" 
+          begin="0s"
+          calcMode="spline" 
+          keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+          values="10;15;10" 
+          keyTimes="0;0.5;1"
+          dur="1s"
+          repeatCount="indefinite"/></circle>
+      </a>
+
+      <a>
+        <circle cx="489" cy="243" r="15" fill="#00ff00" stroke="black" opacity="0.75"><animate
+          attributeName="r" 
+          begin="0s"
+          calcMode="spline" 
+          keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+          values="10;15;10" 
+          keyTimes="0;0.5;1"
+          dur="1s"
+          repeatCount="indefinite"/></circle>
+      </a><a xlink:href="#">
+        <circle cx="846" cy="199" r="15" fill="#00ff00" stroke="black" opacity="0.75"><animate
+          attributeName="r" 
+          begin="0s"
+          calcMode="spline" 
+          keySplines="0.3 0 0.7 1;0.3 0 0.7 1"
+          values="10;15;10" 
+          keyTimes="0;0.5;1"
+          dur="1s"
+          repeatCount="indefinite"/></circle>
+      </a>
+    </svg>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-12 restrictions">
+    <h3>Milloin EI tarvitse maksaa kalastonhoitomaksua?</h3>
+    <p><a href="https://www.finlex.fi/fi/laki/alkup/2015/20150379#Pidm46494958895408">Kalastuslain</a> perusteella kalastonhoitomaksua ei tarvitse maksaa seuraavissa tilanteissa:</p>
+    <ul>
+      <li>ongit, pilkit tai käytät silakkalitkaa tai</li>
+      <li>olet alle 18-vuotias tai</li>
+      <li>täyttänyt 65 vuotta</li>
+    </ul>
+  </div>
+</div>
+  <!--<div class="left-menu">
+            <h1>Kalastonhoitomaksu</h1>
+            <h2>Kalastonhoitomaksu on pakollinen kaikille 18-64-vuotiaille, jos aikoo</h2>
+            <p>Oheisen kalastonhoitomaiseman tarkoitus on havainnollistaa, että missä ja milloin tarvitset kalastonhoitomaksun.</p>
+        </div>
+        <div class="image-indicators">
+            <input type="checkbox" class="point" id="point-1" name="point" value="1">
+            <input type="checkbox" class="point" id="point-2" name="point" value="2">
+            <input type="checkbox" class="point" id="point-3" name="point" value="3">
+            <input type="checkbox" class="point" id="point-4" name="point" value="4">
+            <label for="point-1" id="label-1" >
+                <span>
+                    <span></span>
+                </span>
+            </label>
+            <label for="point-2" id="label-2" >
+                <span>
+                    <span></span>
+                </span>
+            </label>
+            <label for="point-3" id="label-3">
+                <span>
+                    <span></span>
+                </span>
+            </label>
+            <label for="point-4" id="label-4">
+                <span>
+                    <span></span>
+                </span>
+            </label>
+            <img src="Retkietiketti-11.jpg">
+            <div class="description">
+                <div>
+                    <p>La peste à la Tourette représentant le chevalier Roze et les échevins, huile sur toile, 1755, collection Musée d'Histoire de Marseille.</p>
+                </div>
+                <div>
+                    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil</p>
+                    <p>impedit quo minus id quod maxime placeat facere possimus.</p>
+                </div>
+                <div>
+                    <p>Proin nunc sem, pretium vehicula erat vitae, pulvinar faucibus lectus.</p>
+                    <p>Curabitur ullamcorper elementum augue, ac tristique lacus commodo.</p>
+                </div>
+                <div>
+                    <p>Aliquam euismod, leo nec efficitur aliquet, neque nulla volutpat mi </p>
+                    <p>eget pretium mauris ligula vel semper.</p>
+                </div>
+                <div>
+                    <p>Mauris posuere, mauris in ultricies, neque nulla volutpat mi </p>
+                    <p>eget pretium mauris ligula vel semper.</p>
+                </div>
+            </div>
+        </div>-->
+<script>
+  var points = document.querySelectorAll('#bgoverlay a');
+  points.forEach(element => {
+    element.addEventListener('click', function(event){
+      //document.title = e;
+      //console.log(event);
+      document.querySelectorAll('.menu div').forEach((el,index)=>{el.style.display="none"});
+      console.log(event.srcElement.parentNode.parentNode);
+      document.querySelector('.menu div:nth-child('+([...event.srcElement.parentNode.parentNode.children].indexOf(event.explicitOriginalTarget.parentNode)+2)+')').style.display = 'block';
+    })
+    element.addEventListener('touchend', function(event){
+      //document.title = e;
+      console.log('asdsad');
+    })
+
+  });
+
+  function isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
+      }
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+
+      if (isMobile()) {
+        var points = document.querySelectorAll('#bgoverlay a');
+    points.forEach(element => {
+
+    })
+      } 
+  })
+</script>
+      </body>
+</html>
