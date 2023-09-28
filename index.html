@@ -669,7 +669,7 @@
   points.forEach((currentValue, currentIndex, listObj) => {
     currentValue.addEventListener('click', function(event){
       document.querySelectorAll('.infoboxes div').forEach((currentValue, currentIndex, listObj)=>{currentValue.style.display="none"});
-      document.querySelector('.infoboxes div:nth-child('+(currentIndex+2)+')').style.display = 'block';
+      document.querySelector('.infoboxes div:nth-child('+(currentIndex+1)+')').style.display = 'block';
     })
     currentValue.addEventListener('touchend', function(event){
       console.log('asdsad');
