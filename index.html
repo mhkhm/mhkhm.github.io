@@ -684,16 +684,12 @@
         </div>-->
 <script>
   var points = document.querySelectorAll('#bgoverlay a');
-  points.forEach(element => {
-    element.addEventListener('click', function(event){
-      //document.title = e;
-      //console.log(event);
-      document.querySelectorAll('.menu div').forEach((el,index)=>{el.style.display="none"});
-      console.log(event.srcElement.parentNode.parentNode);
-      document.querySelector('.menu div:nth-child('+([...event.srcElement.parentNode.parentNode.children].indexOf(event.explicitOriginalTarget.parentNode)+2)+')').style.display = 'block';
+  points.forEach((currentValue, currentIndex, listObj) => {
+    currentValue.addEventListener('click', function(event){
+      document.querySelectorAll('.menu div').forEach((currentValue, currentIndex, listObj)=>{currentValue.style.display="none"});
+      document.querySelector('.menu div:nth-child('+(currentIndex+2)+')').style.display = 'block';
     })
-    element.addEventListener('touchend', function(event){
-      //document.title = e;
+    currentValue.addEventListener('touchend', function(event){
       console.log('asdsad');
     })
 
